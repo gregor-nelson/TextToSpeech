@@ -1,0 +1,826 @@
+/* ============================================
+   TTS Server - Mobile Styles (≤480px)
+   Enhanced with Dynamic Controls & Modals
+   ============================================ */
+
+/* Mobile Layout Structure */
+@media (max-width: 480px) {
+    /* Prevent horizontal overflow */
+    html, body {
+        overflow-x: hidden;
+        max-width: 100vw;
+    }
+    
+    /* === LAYOUT STRUCTURE === */
+    .tts-app {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        max-width: 100vw;
+        overflow-x: hidden;
+    }
+    
+    .tts-header {
+        order: 1;
+        padding: var(--space-sm) var(--space-md);
+        flex-shrink: 0;
+    }
+    
+    .tts-content {
+        order: 2;
+        flex: 1;
+        padding: var(--space-md);
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+    
+    .tts-status-bar {
+        order: 3;
+        flex-shrink: 0;
+        background: var(--white);
+        border-top: 1px solid var(--gray-200);
+        padding: 0;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* === MOBILE HEADER === */
+    .tts-header {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+    
+    .header-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 40px;
+        padding: 0;
+        order: 1;
+    }
+    
+    /* Mobile Controls Row - Second row in header */
+    .mobile-controls-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        padding: var(--space-sm) 0;
+        order: 2;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+    
+    .control-zone-left,
+    .control-zone-right {
+        position: static;
+    }
+    
+    /* Hide center controls from header on mobile */
+    .header-controls .control-zone-center {
+        display: none !important;
+    }
+    
+    .header-controls .control-warning {
+        display: none;
+    }
+
+    /* === MAXIMIZED TEXT AREA === */
+    .text-input {
+        flex: 1;
+        resize: none;
+        margin-bottom: 0;
+    }
+
+    /* === UNIFIED BOTTOM SECTION === */
+    .tts-status-bar {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        min-height: auto;
+    }
+    
+    /* Status info section - positioned above controls */
+    .status-content {
+        padding: var(--space-sm) var(--space-md);
+        font-size: 0.75rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--gray-50);
+        border-bottom: 1px solid var(--gray-200);
+        order: 1;
+    }
+    
+    .status-left {
+        font-size: 0.75rem;
+        color: var(--gray-600);
+    }
+    
+    .status-center {
+        font-size: 0.75rem;
+        color: var(--gray-700);
+        font-family: var(--font-mono);
+    }
+    
+    .status-right {
+        display: none; /* Hide keyboard shortcuts on mobile */
+    }
+
+    /* === MOBILE CONTROL BAR (Status bar controls hidden) === */
+    .tts-status-bar .control-zone-center {
+        display: none !important;
+    }
+    
+    /* Hide original dropdowns on mobile */
+    .control-select-minimal {
+        display: none !important;
+    }
+    
+    /* Mobile Controls in Header */
+    .mobile-controls-row .control-button-dynamic {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-xs);
+        padding: var(--space-sm) var(--space-md);
+        background: transparent;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        color: var(--gray-700);
+        cursor: pointer;
+        transition: var(--transition);
+        min-height: 44px;
+        overflow: hidden;
+        font-family: var(--font-main);
+        font-weight: 500;
+        box-sizing: border-box;
+        width: 100%;
+    }
+    
+    .mobile-controls-row .control-button-dynamic:hover,
+    .mobile-controls-row .control-button-dynamic:focus {
+        background: rgba(0, 0, 0, 0.05);
+        outline: none;
+    }
+    
+    .mobile-controls-row .control-button-dynamic:active {
+        background: rgba(0, 0, 0, 0.1);
+        transform: scale(0.98);
+    }
+    
+    /* Play button styling for mobile in header */
+    .mobile-controls-row .play-button-primary {
+        width: 48px;
+        height: 48px;
+        font-size: 18px;
+        flex-shrink: 0;
+        order: 2; /* Center position */
+        border-radius: 50%;
+        background: var(--accent-blue);
+        border: none;
+        color: white;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    
+    .mobile-controls-row .play-button-primary:hover,
+    .mobile-controls-row .play-button-primary:focus {
+        background: var(--accent-blue-dark, #0056b3);
+        outline: none;
+    }
+    
+    /* Voice Button in header */
+    .mobile-controls-row .voice-button {
+        order: 1;
+        width: 120px;
+        min-width: 120px;
+        max-width: 120px;
+        justify-content: center;
+    }
+    
+    /* Speed Button in header */
+    .mobile-controls-row .speed-button {
+        order: 3;
+        width: 120px;
+        min-width: 120px;
+        max-width: 120px;
+        justify-content: center;
+        padding-left: var(--space-sm);
+        padding-right: var(--space-sm);
+    }
+
+    /* === MOBILE PROGRESS BAR === */
+    .progress-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        z-index: 20;
+    }
+
+    /* === MOBILE SPECIFIC ELEMENTS === */
+    .speed-indicator {
+        display: none !important;
+    }
+
+    /* === MOBILE NOTIFICATIONS === */
+    .notification-container {
+        top: var(--space-sm);
+        right: var(--space-sm);
+        left: var(--space-sm);
+        z-index: 1050; /* Above modals */
+    }
+    
+    .notification {
+        min-width: auto;
+        max-width: none;
+    }
+}
+
+/* ============================================
+   MOBILE DYNAMIC CONTROLS
+   ============================================ */
+
+@media (max-width: 480px) {
+    /* Dynamic Control Buttons */
+    .control-button-dynamic {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-xs);
+        padding: var(--space-sm) var(--space-md);
+        background: transparent;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        color: var(--gray-700);
+        cursor: pointer;
+        transition: var(--transition);
+        min-height: 44px;
+        overflow: hidden;
+        font-family: var(--font-main);
+        font-weight: 500;
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    .control-button-dynamic:hover,
+    .control-button-dynamic:focus {
+        background: rgba(0, 0, 0, 0.05);
+        outline: none;
+    }
+
+    .control-button-dynamic:active {
+        background: rgba(0, 0, 0, 0.1);
+        transform: scale(0.98);
+    }
+
+    .control-button-dynamic.touch-active {
+        background: rgba(0, 0, 0, 0.1);
+        transform: scale(0.98);
+    }
+
+    /* Voice Button - Icon styling */
+    .voice-button .button-icon {
+        font-size: 0.875rem;
+        flex-shrink: 0;
+        margin-right: var(--space-xs);
+    }
+    
+    /* Voice Button - Text styling */
+    .voice-button .button-text {
+        text-align: center;
+        flex: 1;
+        font-weight: 600;
+        letter-spacing: 0.25px;
+    }
+
+    /* Speed Button - Legacy styles for status bar (now unused) */
+    .speed-button .button-icon {
+        font-size: 1rem;
+        flex-shrink: 0;
+    }
+
+    /* Button content */
+    .button-text {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: 500;
+        text-align: center;
+        max-width: 100%;
+    }
+
+    .speed-button .button-text {
+        text-align: center;
+        flex: 1;
+    }
+
+    .button-chevron {
+        flex-shrink: 0;
+        font-size: 0.75rem;
+        opacity: 0.6;
+        margin-left: var(--space-xs);
+    }
+
+    .speed-button .button-chevron {
+        margin-left: var(--space-xs);
+    }
+}
+
+/* ============================================
+   MOBILE MODAL SYSTEM
+   ============================================ */
+
+/* Base Modal System */
+.mobile-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.mobile-modal:not(.hidden) {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+}
+
+.modal-content {
+    position: relative;
+    background: var(--white);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 400px;
+    max-height: 70vh;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.95) translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.mobile-modal:not(.hidden) .modal-content {
+    transform: scale(1) translateY(0);
+}
+
+/* Modal Header */
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-md);
+    border-bottom: 1px solid var(--gray-200);
+    flex-shrink: 0;
+}
+
+.modal-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-800);
+    margin: 0;
+}
+
+.modal-close {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    color: var(--gray-500);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.modal-close:hover {
+    background: var(--gray-100);
+    color: var(--gray-800);
+}
+
+/* ============================================
+   VOICE MODAL STYLES
+   ============================================ */
+
+/* Voice Search */
+.modal-search {
+    position: relative;
+    padding: var(--space-md);
+    border-bottom: 1px solid var(--gray-200);
+    flex-shrink: 0;
+}
+
+.modal-search .search-icon {
+    position: absolute;
+    left: calc(var(--space-md) + var(--space-sm));
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: var(--gray-400);
+}
+
+.modal-search .search-input {
+    width: 100%;
+    padding: var(--space-sm) var(--space-sm) var(--space-sm) calc(var(--space-xl) + 8px);
+    border: 1px solid var(--gray-200);
+    border-radius: 6px;
+    background: var(--gray-50);
+    font-size: 0.875rem;
+    color: var(--gray-900);
+    transition: var(--transition);
+    font-family: var(--font-main);
+}
+
+.modal-search .search-input:focus {
+    outline: none;
+    border-color: var(--gray-400);
+    background: var(--white);
+}
+
+.modal-search .search-input::placeholder {
+    color: var(--gray-400);
+}
+
+/* Voice Categories */
+.voice-categories {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-sm);
+}
+
+.voice-category {
+    margin-bottom: var(--space-md);
+}
+
+.voice-category:last-child {
+    margin-bottom: 0;
+}
+
+.category-header {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: var(--space-xs);
+    padding: 0 var(--space-sm);
+}
+
+.voice-option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    width: 100%;
+    padding: var(--space-sm);
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    text-align: left;
+    cursor: pointer;
+    transition: var(--transition);
+    margin: 2px 0;
+    min-height: 44px;
+    font-family: var(--font-main);
+}
+
+.voice-option:hover {
+    background: var(--gray-100);
+}
+
+.voice-option.selected {
+    background: var(--accent-blue);
+    color: var(--white);
+}
+
+.voice-flag {
+    font-size: 1.125rem;
+    flex-shrink: 0;
+    width: 24px;
+    text-align: center;
+}
+
+.voice-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.voice-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: inherit;
+    margin: 0;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.voice-locale {
+    font-size: 0.75rem;
+    color: inherit;
+    opacity: 0.7;
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* ============================================
+   SPEED BOTTOM SHEET STYLES
+   ============================================ */
+
+.mobile-sheet {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.mobile-sheet:not(.hidden) {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.sheet-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.sheet-content {
+    position: relative;
+    background: var(--white);
+    border-radius: 16px 16px 0 0;
+    width: 100%;
+    max-height: 60vh;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.mobile-sheet:not(.hidden) .sheet-content {
+    transform: translateY(0);
+}
+
+.sheet-handle {
+    width: 36px;
+    height: 4px;
+    background: var(--gray-300);
+    border-radius: 2px;
+    margin: var(--space-sm) auto;
+    flex-shrink: 0;
+}
+
+.sheet-header {
+    padding: 0 var(--space-md) var(--space-md);
+    border-bottom: 1px solid var(--gray-200);
+    flex-shrink: 0;
+}
+
+.sheet-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-800);
+    margin: 0;
+    text-align: center;
+}
+
+/* Speed Options Grid */
+.speed-options-grid {
+    padding: var(--space-md);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: var(--space-sm);
+    max-height: 40vh;
+    overflow-y: auto;
+}
+
+.speed-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md) var(--space-sm);
+    background: var(--gray-50);
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    min-height: 60px;
+    font-family: var(--font-main);
+}
+
+.speed-option:hover {
+    background: var(--gray-100);
+    border-color: var(--gray-300);
+}
+
+.speed-option.selected {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+    color: var(--white);
+}
+
+.speed-value {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1;
+}
+
+.speed-label {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    margin: 0;
+    margin-top: 2px;
+    line-height: 1;
+}
+
+/* ============================================
+   MOBILE FEEDBACK ELEMENTS
+   ============================================ */
+
+.mobile-speed-feedback {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    z-index: 1002;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    font-family: var(--font-main);
+}
+
+.mobile-speed-feedback.fade-out {
+    opacity: 0;
+}
+
+/* ============================================
+   MOBILE INTERACTION STATES
+   ============================================ */
+
+.touch-active {
+    opacity: 0.7;
+    transform: scale(0.98);
+}
+
+.keyboard-hidden {
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.speed-warning-active {
+    color: var(--accent-orange) !important;
+    font-weight: 600 !important;
+}
+
+@media (max-width: 480px) {
+    .keyboard-open .tts-content {
+        flex: 1;
+        padding-bottom: 0;
+    }
+    
+    .keyboard-open .tts-status-bar {
+        min-height: 0;
+    }
+}
+
+/* ============================================
+   EXTRA SMALL MOBILE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 320px) {
+    .tts-header {
+        padding: var(--space-sm);
+    }
+    
+    .mobile-controls-row {
+        gap: var(--space-sm);
+        padding: var(--space-xs) 0;
+        max-width: calc(100vw - 2 * var(--space-sm));
+        margin: 0 auto;
+    }
+    
+    /* Compact mobile adjustments */
+    @media (max-width: 360px) {
+        .mobile-controls-row {
+            gap: 12px;
+        }
+        
+        .mobile-controls-row .voice-button {
+            width: 95px;
+            min-width: 95px;
+            max-width: 95px;
+            justify-content: center;
+        }
+        
+        .mobile-controls-row .speed-button {
+            width: 95px;
+            min-width: 95px;
+            max-width: 95px;
+        }
+        
+        .mobile-controls-row .play-button-primary {
+            width: 46px;
+            height: 46px;
+            font-size: 16px;
+        }
+    }
+    
+    .control-button-dynamic {
+        min-height: 40px;
+        font-size: 0.8125rem;
+        padding: var(--space-xs) var(--space-sm);
+    }
+    
+    .mobile-controls-row .voice-button {
+        width: 95px;
+        min-width: 95px;
+        max-width: 95px;
+        justify-content: center;
+    }
+    
+    /* Voice button text adjustment for small screens */
+    .voice-button .button-text {
+        font-size: 0.8125rem;
+        font-weight: 600;
+    }
+    
+    .mobile-controls-row .speed-button {
+        width: 95px;
+        min-width: 95px;
+        max-width: 95px;
+        padding-left: var(--space-xs);
+        padding-right: var(--space-xs);
+    }
+    
+    .mobile-controls-row .play-button-primary {
+        width: 46px;
+        height: 46px;
+        font-size: 16px;
+    }
+    
+    .tts-content {
+        padding: var(--space-sm);
+    }
+    
+    .mobile-modal {
+        padding: var(--space-sm);
+    }
+    
+    .modal-content {
+        max-width: calc(100% - var(--space-md));
+    }
+    
+    .speed-options-grid {
+        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    }
+}

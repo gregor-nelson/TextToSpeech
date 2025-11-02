@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTS Server - Professional Text to Speech</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="/tts{{ url_for('static', filename='css/tts-style.css') }}">
+    <link rel="stylesheet" href="/tts{{ url_for('static', filename='css/mobile.css') }}">
+    <meta name="description" content="Professional text-to-speech interface with clean, minimal design">
+</head>
+<body>
+    <div class="tts-app">
+        <!-- Notification Area -->
+        <div class="notification-container">
+            <div class="notification notification-error hidden" id="errorMessage">
+                <i class="ph ph-x-circle notification-icon"></i>
+                <span class="notification-text"></span>
+            </div>
+            <div class="notification notification-success hidden" id="successMessage">
+                <i class="ph ph-check-circle notification-icon"></i>
+                <span class="notification-text"></span>
+            </div>
+            <div class="notification notification-info hidden" id="infoMessage">
+                <i class="ph ph-info notification-icon"></i>
+                <span class="notification-text"></span>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header class="tts-header">
+            <div class="header-controls">
+                <!-- Left Zone: Logo -->
+                <div class="control-zone-left">
+                    <div class="app-logo">
+                        <i class="ph ph-waveform"></i>
+                    </div>
+                </div>
+                
+                <!-- Center Zone: Playback Controls -->
+                <div class="control-zone-center">
+                    <!-- Original HTML selects (hidden on desktop via CSS) -->
+                    <select id="voiceSelect" class="control-select-minimal">
+                        <option value="">Loading voices...</option>
+                    </select>
+                    
+                    <!-- Desktop dropdown buttons (visible on desktop only) -->
+                    <button id="desktopVoiceBtn" class="desktop-dropdown-button desktop-voice-button" style="display: none;">
+                        <div class="button-content">
+                            <span class="button-flag">🇺🇸</span>
+                            <span class="button-text">EN-US</span>
+                        </div>
+                        <i class="ph ph-caret-down button-chevron"></i>
+                    </button>
+                    
+                    <button id="playBtn" class="play-button-primary" title="Play/Pause text-to-speech">
+                        <i class="ph ph-play"></i>
+                    </button>
+                    
+                    <select id="speedSelect" class="control-select-minimal">
+                        <option value="0.25">0.25x</option>
+                        <option value="0.5">0.5x</option>
+                        <option value="0.75">0.75x</option>
+                        <option value="1.0" selected>1.0x</option>
+                        <option value="1.25">1.25x</option>
+                        <option value="1.5">1.5x</option>
+                        <option value="1.75">1.75x</option>
+                        <option value="2.0">2.0x</option>
+                        <option value="2.5">2.5x</option>
+                        <option value="3.0">3.0x</option>
+                        <option value="3.5">3.5x</option>
+                        <option value="4.0">4.0x</option>
+                        <option value="4.5">4.5x</option>
+                        <option value="5.0">5.0x</option>
+                        <option value="6.0">6.0x</option>
+                    </select>
+                    
+                    <!-- Desktop speed button (visible on desktop only) -->
+                    <button id="desktopSpeedBtn" class="desktop-dropdown-button desktop-speed-button" style="display: none;">
+                        <div class="button-content">
+                            <span class="button-text">1.0×</span>
+                        </div>
+                        <i class="ph ph-caret-down button-chevron"></i>
+                    </button>
+                </div>
+                
+                <!-- Right Zone: Settings -->
+                <div class="control-zone-right">
+                    <button id="ccBtn" class="settings-button" title="Closed Captions">
+                        <i class="ph ph-closed-captioning"></i>
+                    </button>
+                </div>
+                
+                <div class="control-warning hidden" id="speedWarning">Uses browser acceleration</div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="tts-content">
+            <textarea
+                id="textArea"
+                class="text-input"
+                placeholder="Start typing or paste your text here. Professional text-to-speech synthesis with natural voice rendering..."
+                spellcheck="true"
+                autocomplete="off">
+            </textarea>
+        </main>
+
+        <!-- Status Bar -->
+        <footer class="tts-status-bar">
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar" id="progressTopFill" style="width: 0%"></div>
+            </div>
+            
+            <div class="status-content">
+                <div class="status-left" id="wordCount">0 words • 0 characters</div>
+                <div class="status-center" id="timeDisplay">--:-- / --:--</div>
+                <div class="status-right"><kbd>Ctrl+Enter</kbd> to play • <kbd>Shift+&lt;/&gt;</kbd> to adjust speed</div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Desktop Voice Modal -->
+    <div id="desktopVoiceModal" class="desktop-modal desktop-voice-modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Select Voice</h3>
+                <button class="modal-close" id="desktopVoiceModalClose">
+                    <i class="ph ph-x"></i>
+                </button>
+            </div>
+            
+            <div class="modal-search">
+                <i class="ph ph-magnifying-glass search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search voices..." id="desktopVoiceSearch">
+            </div>
+            
+            <div class="voice-categories" id="desktopVoiceCategories">
+                <!-- Dynamic voice list will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Speed Modal -->
+    <div id="desktopSpeedModal" class="desktop-modal desktop-speed-modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Playback Speed</h3>
+                <button class="modal-close" id="desktopSpeedModalClose">
+                    <i class="ph ph-x"></i>
+                </button>
+            </div>
+            
+            <div class="speed-options-list" id="desktopSpeedOptionsList">
+                <!-- Dynamic speed list will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/tts{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="/tts{{ url_for('static', filename='js/mobile.js') }}"></script>
+    <script src="/tts{{ url_for('static', filename='js/desktop.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,1432 @@
+/* ============================================
+   TTS Server - Professional Text to Speech
+   Based on reference designs with ultra-clean aesthetic
+   ============================================ */
+
+/* Reset & Base Styles - Recycled from reference files */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Color Palette - Directly from reference files */
+    --gray-900: #2c2c2c;
+    --gray-800: #3a3a3a;
+    --gray-700: #4a4a4a;
+    --gray-600: #5a5a5a;
+    --gray-500: #6a6a6a;
+    --gray-400: #8a8a8a;
+    --gray-300: #a0a0a0;
+    --gray-200: #c4c4c4;
+    --gray-100: #e5e5e5;
+    --gray-50: #f4f4f4;
+    --white: #fdfdfd;
+    
+    /* TTS-specific accent colors */
+    --accent-blue: #3b82f6;
+    --accent-blue-hover: #2563eb;
+    --accent-green: #10b981;
+    --accent-orange: #f59e0b;
+    --accent-red: #ef4444;
+    
+    /* Typography - Same as reference */
+    --font-main: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', monospace;
+    
+    /* Spacing - Same system as reference */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    
+    /* Transitions - Same as reference */
+    --transition: all 0.2s ease;
+    --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Body - Recycled from reference with TTS adjustments */
+body {
+    font-family: var(--font-main);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--gray-900);
+    background: var(--gray-50);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Typography - Directly from reference files */
+h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--gray-800);
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--gray-800);
+}
+
+h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--gray-700);
+}
+
+p {
+    color: var(--gray-600);
+}
+
+/* App Container - Adapted from reference #app styles */
+.tts-app {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    background: var(--white);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    min-height: 100vh;
+}
+
+/* Header Section - Adapted from reference header styles */
+.tts-header {
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-100);
+}
+
+/* Header Controls - Centered layout */
+.header-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md) var(--space-xl);
+    height: 72px;
+    position: relative;
+}
+
+/* Left Zone - Logo */
+.control-zone-left {
+    position: absolute;
+    left: var(--space-xl);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.app-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: var(--gray-700);
+    font-size: 24px;
+}
+
+/* Center Zone - Playback Controls */
+.control-zone-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-lg);
+}
+
+/* Right Zone - Settings */
+.control-zone-right {
+    position: absolute;
+    right: var(--space-xl);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* Minimal Control Styling */
+.control-select-minimal {
+    padding: 8px 12px;
+    background: transparent;
+    border: 1px solid var(--gray-200);
+    border-radius: 6px;
+    font-family: var(--font-main);
+    font-size: 0.9375rem;
+    font-weight: 400;
+    color: var(--gray-700);
+    cursor: pointer;
+    transition: var(--transition);
+    min-width: 100px;
+    height: 40px;
+}
+
+.control-select-minimal:hover {
+    border-color: var(--gray-300);
+    background: var(--gray-50);
+}
+
+.control-select-minimal:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+/* Primary Play Button */
+.play-button-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 16px;
+    position: relative;
+}
+
+.play-button-primary:hover {
+    background: var(--accent-blue-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.play-button-primary:active {
+    transform: translateY(0);
+}
+
+.play-button-primary:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Settings Button */
+.settings-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    color: var(--gray-500);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 20px;
+}
+
+.settings-button:hover {
+    background: var(--gray-100);
+    color: var(--gray-700);
+}
+
+.settings-button:active {
+    background: var(--gray-200);
+}
+
+.settings-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+/* Control Warning Positioning */
+.header-controls .control-warning {
+    position: absolute;
+    bottom: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    color: var(--accent-orange);
+    white-space: nowrap;
+}
+
+/* Responsive Design for New Header */
+@media (max-width: 768px) {
+    .header-controls {
+        padding: var(--space-md) var(--space-lg);
+        gap: var(--space-md);
+        height: 64px;
+    }
+    
+    .control-select-minimal {
+        min-width: 90px;
+        font-size: 0.875rem;
+    }
+    
+    .play-button-primary {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    .settings-button {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+}
+
+
+/* Main Content Area - Adapted from reference */
+.tts-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-xl);
+    min-height: 0;
+}
+
+/* Status Bar - Adapted from reference footer styles */
+.tts-status-bar {
+    background: var(--white);
+    border-top: 1px solid var(--gray-100);
+    padding: var(--space-md) var(--space-xl);
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.status-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+    color: var(--gray-500);
+    overflow: hidden;
+    width: 100%;
+}
+
+.status-left {
+    font-weight: 500;
+    color: var(--gray-700);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+}
+
+.status-center {
+    font-family: var(--font-mono);
+    color: var(--gray-600);
+    flex: 0 0 auto;
+    text-align: center;
+    margin: 0 var(--space-md);
+    white-space: nowrap;
+}
+
+.status-right {
+    font-size: 0.75rem;
+    color: var(--gray-400);
+    flex: 1;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+}
+
+.status-right kbd {
+    padding: 2px 6px;
+    background: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    margin: 0 1px;
+}
+
+/* Animations - From reference files */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease;
+}
+
+/* ============================================
+   STAGE 2: HEADER & CONTROLS 
+   Ultra-clean form styling with minimal borders
+   ============================================ */
+
+/* Control Group - Toolbar sections with perfect alignment */
+.control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    justify-content: center;
+    min-height: 46px;
+    max-height: 46px;
+}
+
+/* Left control group aligns left */
+.control-group:first-child {
+    align-items: flex-start;
+    text-align: left;
+}
+
+/* Right control group aligns right */  
+.control-group:last-child {
+    align-items: flex-end;
+    text-align: right;
+}
+
+.control-label {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0;
+}
+
+/* Form Controls - Minimal toolbar styling with consistent height */
+.control-select {
+    padding: 10px var(--space-md);
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: var(--font-main);
+    color: var(--gray-800);
+    transition: var(--transition);
+    outline: none;
+    cursor: pointer;
+    min-width: 100px;
+    height: 40px;
+    box-sizing: border-box;
+}
+
+.control-select:hover {
+    background: var(--gray-50);
+    color: var(--gray-900);
+}
+
+.control-select:focus {
+    background: var(--gray-50);
+    color: var(--gray-900);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.04);
+}
+
+/* Control Warning - Positioned outside grid for symmetry */
+.control-warning {
+    font-size: 0.75rem;
+    color: var(--accent-orange);
+    font-weight: 400;
+    text-align: center;
+    margin-top: var(--space-xs);
+    grid-column: 1 / -1;
+}
+
+/* Play Button - Aligned to control group baseline */
+.play-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: var(--accent-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 50%;
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.12);
+    position: relative;
+    outline: none;
+    justify-self: center;
+    align-self: end;
+    margin-bottom: 4px;
+}
+
+.play-button:hover {
+    background: var(--accent-blue-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 12px rgba(59, 130, 246, 0.18);
+}
+
+.play-button:active {
+    transform: translateY(0);
+    transition: none;
+}
+
+.play-button:focus {
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.12), 
+                0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Play Button States */
+.play-button.playing span {
+    font-size: 1rem;
+}
+
+/* Speed Indicator - Recycled from reference badge patterns */
+.speed-indicator {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: var(--accent-orange);
+    color: var(--white);
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-family: var(--font-mono);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   STAGE 3: TEXT AREA & CONTENT
+   Ultra-clean text input with minimal styling
+   ============================================ */
+
+/* Text Input - Recycled from reference search input patterns */
+.text-input {
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    padding: var(--space-lg);
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: var(--font-main);
+    line-height: 1.6;
+    color: var(--gray-800);
+    resize: none;
+    transition: var(--transition);
+    outline: none;
+}
+
+.text-input:hover {
+    background: var(--white);
+    border-color: var(--gray-300);
+}
+
+.text-input:focus {
+    background: var(--white);
+    border-color: var(--gray-400);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.04);
+}
+
+/* Placeholder styling - Clean and subtle */
+.text-input::placeholder {
+    color: var(--gray-400);
+    font-style: normal;
+}
+
+.text-input:focus::placeholder {
+    color: var(--gray-300);
+    transition: color 0.2s ease;
+}
+
+/* Text selection styling */
+.text-input::selection {
+    background: rgba(59, 130, 246, 0.15);
+    color: var(--gray-900);
+}
+
+/* ============================================
+   STAGE 4: STATUS BAR & PROGRESS
+   Minimal progress bar with smooth animation
+   ============================================ */
+
+/* Progress Container - Positioned at top edge of status bar */
+.progress-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gray-200);
+    overflow: hidden;
+}
+
+/* Progress Bar - Minimal line with smooth gradient */
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, 
+        var(--accent-blue) 0%, 
+        var(--accent-blue-hover) 100%);
+    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform-origin: left;
+    position: relative;
+}
+
+/* Progress Bar Animation Glow (subtle) */
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(59, 130, 246, 0.4) 100%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.progress-bar.animating::after {
+    opacity: 1;
+}
+
+/* Enhanced Status Content - Recycled from reference footer patterns */
+.status-content {
+    padding-top: var(--space-xs);
+}
+
+/* Status bar element styles are defined earlier in the file */
+
+/* Keyboard Shortcut Styling - Recycled from reference kbd patterns */
+.status-right kbd {
+    display: inline-block;
+    padding: 2px 5px;
+    background: var(--gray-100);
+    border: 1px solid var(--gray-300);
+    border-bottom: 2px solid var(--gray-300);
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--gray-600);
+    line-height: 1;
+    box-shadow: 0 1px 0 var(--gray-200);
+}
+
+/* Progress States for Different Playback Modes */
+.progress-bar.playing {
+    background: linear-gradient(90deg, 
+        var(--accent-green) 0%, 
+        #059669 100%);
+}
+
+.progress-bar.paused {
+    background: linear-gradient(90deg, 
+        var(--accent-orange) 0%, 
+        #d97706 100%);
+}
+
+.progress-bar.loading {
+    background: linear-gradient(90deg, 
+        var(--gray-400) 0%, 
+        var(--gray-500) 100%);
+    animation: loading-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes loading-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+/* ============================================
+   STAGE 5: NOTIFICATION SYSTEM
+   Clean, minimal notification bubbles
+   ============================================ */
+
+/* Notification Container - Fixed positioning off to the side */
+.notification-container {
+    position: fixed;
+    top: var(--space-lg);
+    right: var(--space-lg);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    pointer-events: none;
+    max-width: 400px;
+}
+
+/* Base Notification Bubble - Recycled from reference modal patterns */
+.notification {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-lg);
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    max-width: 400px;
+    min-width: 300px;
+    pointer-events: auto;
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Notification Icons - Using Phosphor Icons */
+.notification .notification-icon {
+    font-size: 1rem;
+    font-weight: 600;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Success Notification - Green accent */
+.notification-success {
+    border-left: 4px solid var(--accent-green);
+    color: var(--gray-800);
+}
+
+.notification-success .notification-icon {
+    color: var(--accent-green);
+}
+
+/* Error Notification - Red accent */
+.notification-error {
+    border-left: 4px solid var(--accent-red);
+    color: var(--gray-800);
+}
+
+.notification-error .notification-icon {
+    color: var(--accent-red);
+}
+
+/* Info Notification - Blue accent */
+.notification-info {
+    border-left: 4px solid var(--accent-blue);
+    color: var(--gray-800);
+}
+
+.notification-info .notification-icon {
+    color: var(--accent-blue);
+}
+
+/* Warning Notification - Orange accent */
+.notification-warning {
+    border-left: 4px solid var(--accent-orange);
+    color: var(--gray-800);
+}
+
+.notification-warning .notification-icon {
+    color: var(--accent-orange);
+}
+
+/* Hidden State - Ready for smooth animations */
+.notification.hidden {
+    opacity: 0;
+    transform: translateX(100%);
+    pointer-events: none;
+}
+
+/* Show Animation - Smooth slide-in from right */
+.notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Fade-out Animation - Smooth slide-out to right */
+.notification.fade-out {
+    opacity: 0;
+    transform: translateX(50px);
+    pointer-events: none;
+}
+
+/* Notification Hover Effect - Subtle interaction */
+.notification.show:hover {
+    transform: translateX(-4px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Auto-dismiss Animation - Subtle progress indicator */
+.notification::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: currentColor;
+    opacity: 0.2;
+    transform-origin: left;
+    transition: width 3s linear;
+}
+
+.notification.auto-dismiss::after {
+    width: 100%;
+}
+
+/* Stacking - Multiple notifications */
+.notification + .notification {
+    margin-top: var(--space-xs);
+}
+
+/* Responsive Adjustments for Notifications */
+@media (max-width: 768px) {
+    .notification-container {
+        top: var(--space-md);
+        right: var(--space-md);
+        left: var(--space-md);
+        max-width: none;
+    }
+    
+    .notification {
+        min-width: auto;
+        max-width: none;
+    }
+}
+
+/* ============================================
+   STAGE 6: RESPONSIVE DESIGN
+   Mobile-first breakpoint strategy
+   ============================================ */
+
+/* Tablet Layout - Maintain horizontal controls with adjusted spacing */
+@media (max-width: 768px) {
+    .tts-app {
+        box-shadow: none;
+    }
+    
+    .tts-header {
+        padding: var(--space-md) var(--space-lg);
+    }
+    
+    .header-title {
+        margin-bottom: var(--space-md);
+    }
+    
+    .main-title {
+        font-size: 1.75rem;
+    }
+    
+    .control-panel {
+        gap: var(--space-xl);
+        padding: 0 var(--space-sm);
+        min-height: 56px;
+    }
+    
+    .control-group {
+        min-width: auto;
+    }
+    
+    .control-select {
+        font-size: 0.9375rem;
+        min-width: 80px;
+        height: 36px;
+        padding: 8px var(--space-sm);
+    }
+    
+    .play-button {
+        width: 44px;
+        height: 44px;
+        font-size: 1rem;
+    }
+    
+    .tts-content {
+        padding: var(--space-lg);
+    }
+    
+    .text-input {
+        padding: var(--space-md);
+    }
+    
+    .tts-status-bar {
+        padding: var(--space-sm) var(--space-lg);
+    }
+    
+    .status-content {
+        font-size: 0.8125rem;
+    }
+    
+    .status-right {
+        font-size: 0.6875rem;
+    }
+}
+
+
+/* ============================================
+   STAGE 5: STATUS BAR LOADING TAKEOVER
+   Enhanced loading states with smart time estimation
+   ============================================ */
+
+/* Status Bar Loading State - Subtle enhancement with no layout changes */
+.tts-status-bar.loading {
+    background: linear-gradient(135deg, var(--gray-50) 0%, #f8fafc 100%);
+    border-top: 1px solid rgba(59, 130, 246, 0.2);
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: inset 0 1px 0 rgba(59, 130, 246, 0.1);
+}
+
+/* DO NOT change layout - maintain exact same positioning */
+
+/* Subtle animated accent line */
+.tts-status-bar.loading::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(59, 130, 246, 0.4) 20%, 
+        rgba(59, 130, 246, 0.6) 50%, 
+        rgba(59, 130, 246, 0.4) 80%, 
+        transparent 100%);
+    animation: loading-sweep 3s ease-in-out infinite;
+}
+
+@keyframes loading-sweep {
+    0%, 100% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+}
+
+/* Loading state text - subtle changes that don't affect layout */
+.tts-status-bar.loading .status-left {
+    color: var(--gray-800);
+    /* Keep same font-weight as normal to prevent layout shift */
+}
+
+.tts-status-bar.loading .status-center {
+    color: var(--accent-blue);
+    /* Font family already set in normal state */
+}
+
+.tts-status-bar.loading .status-right {
+    color: var(--gray-600);
+    /* Keep same font-weight as normal to prevent layout shift */
+}
+
+/* Additional UI Elements - Loading and Warning States */
+
+/* Loading Spinner - For play button loading state */
+.loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid var(--white);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Play Button Loading State */
+.play-button.loading {
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.play-button.loading:hover {
+    transform: none !important;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+/* Speed Warning Show State - Smooth animation */
+.control-warning.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: all 0.3s ease;
+}
+
+.control-warning {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+}
+
+/* ============================================
+   STAGE 7: POLISH & ANIMATIONS
+   Micro-animations and performance optimizations
+   ============================================ */
+
+/* Enhanced Button Hover Effects - Subtle lift with optimized transforms */
+.play-button,
+.control-select {
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .play-button:hover {
+        transform: none;
+    }
+    
+    .notification {
+        transform: none;
+        opacity: 1;
+    }
+    
+    .notification.hidden {
+        display: none;
+    }
+}
+
+/* Enhanced Focus Styles - Better accessibility */
+.control-select:focus-visible,
+.text-input:focus-visible {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 2px;
+}
+
+.play-button:focus-visible {
+    outline: 3px solid var(--accent-blue);
+    outline-offset: 3px;
+}
+
+/* Smooth Loading Transitions */
+.play-button,
+.control-select,
+.text-input {
+    transition: all 0.2s ease,
+                transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+                box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Performance Optimizations */
+.progress-bar,
+.notification {
+    will-change: transform, opacity;
+}
+
+.progress-bar.animating,
+.notification.show,
+.notification.fade-out {
+    will-change: auto;
+}
+
+/* Clean Selection Styling - System-wide */
+::selection {
+    background: rgba(59, 130, 246, 0.15);
+    color: var(--gray-900);
+}
+
+::-moz-selection {
+    background: rgba(59, 130, 246, 0.15);
+    color: var(--gray-900);
+}
+
+/* Enhanced Scrollbar Styling - Minimal and clean */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* Text Input Scrollbar - Matches design language */
+.text-input::-webkit-scrollbar {
+    width: 6px;
+}
+
+.text-input::-webkit-scrollbar-track {
+    background: var(--gray-50);
+}
+
+.text-input::-webkit-scrollbar-thumb {
+    background: var(--gray-200);
+}
+
+.text-input::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-300);
+}
+
+/* ============================================
+   DESKTOP CLEAN DROPDOWNS - Mobile-inspired
+   ============================================ */
+
+/* Hide original HTML selects on desktop */
+@media (min-width: 769px) {
+    .control-select-minimal {
+        display: none !important;
+    }
+    
+    /* Desktop dropdown buttons - clean and minimal like mobile */
+    .desktop-dropdown-button {
+        display: flex !important;
+        align-items: center;
+        gap: var(--space-sm);
+        padding: var(--space-sm) var(--space-md);
+        background: transparent;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.9375rem;
+        color: var(--gray-700);
+        cursor: pointer;
+        transition: var(--transition);
+        min-height: 40px;
+        font-family: var(--font-main);
+        font-weight: 500;
+        min-width: 100px;
+        justify-content: space-between;
+    }
+    
+    .desktop-dropdown-button:hover {
+        background: var(--gray-50);
+        color: var(--gray-900);
+    }
+    
+    .desktop-dropdown-button:focus {
+        background: var(--gray-50);
+        color: var(--gray-900);
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    }
+    
+    .desktop-dropdown-button .button-content {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+        flex: 1;
+    }
+    
+    .desktop-dropdown-button .button-flag {
+        font-size: 1rem;
+        flex-shrink: 0;
+    }
+    
+    .desktop-dropdown-button .button-text {
+        font-weight: 600;
+        flex: 1;
+        text-align: left;
+    }
+    
+    .desktop-dropdown-button .button-chevron {
+        font-size: 0.75rem;
+        opacity: 0.6;
+        flex-shrink: 0;
+    }
+    
+    /* Voice button specific styling */
+    .desktop-voice-button {
+        min-width: 120px;
+    }
+    
+    /* Speed button specific styling */
+    .desktop-speed-button {
+        min-width: 80px;
+    }
+    
+    .desktop-speed-button .button-text {
+        text-align: center;
+    }
+}
+
+/* ============================================
+   DESKTOP MODAL SYSTEM - Unified Design
+   ============================================ */
+
+@media (min-width: 769px) {
+    /* Base desktop modal */
+    .desktop-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-lg);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+    }
+    
+    .desktop-modal:not(.hidden) {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .desktop-modal .modal-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(2px);
+    }
+    
+    .desktop-modal .modal-content {
+        position: relative;
+        background: var(--white);
+        border-radius: 12px;
+        width: 100%;
+        max-width: 500px;
+        max-height: 600px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        transform: scale(0.95) translateY(20px);
+        transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+    .desktop-modal:not(.hidden) .modal-content {
+        transform: scale(1) translateY(0);
+    }
+    
+    /* Modal header - same for both voice and speed */
+    .desktop-modal .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-md);
+        border-bottom: 1px solid var(--gray-200);
+        flex-shrink: 0;
+    }
+    
+    .desktop-modal .modal-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--gray-800);
+        margin: 0;
+    }
+    
+    .desktop-modal .modal-close {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        border-radius: 6px;
+        color: var(--gray-500);
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    
+    .desktop-modal .modal-close:hover {
+        background: var(--gray-100);
+        color: var(--gray-800);
+    }
+    
+    /* Search section - same for both modals */
+    .desktop-modal .modal-search {
+        position: relative;
+        padding: var(--space-md);
+        border-bottom: 1px solid var(--gray-200);
+        flex-shrink: 0;
+    }
+    
+    .desktop-modal .modal-search .search-icon {
+        position: absolute;
+        left: calc(var(--space-md) + var(--space-sm));
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        color: var(--gray-400);
+    }
+    
+    .desktop-modal .modal-search .search-input {
+        width: 100%;
+        padding: var(--space-sm) var(--space-sm) var(--space-sm) calc(var(--space-xl) + 8px);
+        border: 1px solid var(--gray-200);
+        border-radius: 6px;
+        background: var(--gray-50);
+        font-size: 0.875rem;
+        color: var(--gray-900);
+        transition: var(--transition);
+        font-family: var(--font-main);
+    }
+    
+    .desktop-modal .modal-search .search-input:focus {
+        outline: none;
+        border-color: var(--gray-400);
+        background: var(--white);
+    }
+    
+    .desktop-modal .modal-search .search-input::placeholder {
+        color: var(--gray-400);
+    }
+    
+    /* Options container - scrollable list */
+    .desktop-modal .options-container {
+        flex: 1;
+        overflow-y: auto;
+        padding: var(--space-sm);
+    }
+    
+    /* Individual option styling - same for voice and speed */
+    .desktop-modal .option-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        width: 100%;
+        padding: var(--space-sm);
+        background: transparent;
+        border: none;
+        border-radius: 6px;
+        text-align: left;
+        cursor: pointer;
+        transition: var(--transition);
+        margin: 2px 0;
+        min-height: 44px;
+        font-family: var(--font-main);
+    }
+    
+    .desktop-modal .option-item:hover {
+        background: var(--gray-100);
+    }
+    
+    .desktop-modal .option-item.selected {
+        background: var(--accent-blue);
+        color: var(--white);
+    }
+    
+    .desktop-modal .option-icon {
+        font-size: 1.125rem;
+        flex-shrink: 0;
+        width: 24px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Phosphor icons in speed modal */
+    .desktop-speed-modal .option-icon {
+        font-size: 1rem;
+        color: inherit;
+        opacity: 0.8;
+    }
+    
+    .desktop-modal .option-details {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .desktop-modal .option-name {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: inherit;
+        margin: 0;
+        line-height: 1.3;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    .desktop-modal .option-description {
+        font-size: 0.75rem;
+        color: inherit;
+        opacity: 0.7;
+        margin: 0;
+        line-height: 1.2;
+    }
+    
+    /* Voice modal specific - categories */
+    .desktop-voice-modal .voice-categories {
+        flex: 1;
+        overflow-y: auto;
+        padding: var(--space-sm);
+    }
+    
+    .desktop-voice-modal .voice-category {
+        margin-bottom: var(--space-md);
+    }
+    
+    .desktop-voice-modal .voice-category:last-child {
+        margin-bottom: 0;
+    }
+    
+    .desktop-voice-modal .category-header {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--gray-500);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: var(--space-xs);
+        padding: 0 var(--space-sm);
+    }
+    
+    /* Speed modal specific - no categories, direct list */
+    .desktop-speed-modal .speed-options-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: var(--space-sm);
+    }
+    
+    /* Scrollbar styling for modal content */
+    .desktop-modal .options-container::-webkit-scrollbar,
+    .desktop-modal .voice-categories::-webkit-scrollbar,
+    .desktop-modal .speed-options-list::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .desktop-modal .options-container::-webkit-scrollbar-track,
+    .desktop-modal .voice-categories::-webkit-scrollbar-track,
+    .desktop-modal .speed-options-list::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    
+    .desktop-modal .options-container::-webkit-scrollbar-thumb,
+    .desktop-modal .voice-categories::-webkit-scrollbar-thumb,
+    .desktop-modal .speed-options-list::-webkit-scrollbar-thumb {
+        background: var(--gray-300);
+        border-radius: 3px;
+    }
+    
+    .desktop-modal .options-container::-webkit-scrollbar-thumb:hover,
+    .desktop-modal .voice-categories::-webkit-scrollbar-thumb:hover,
+    .desktop-modal .speed-options-list::-webkit-scrollbar-thumb:hover {
+        background: var(--gray-400);
+    }
+}
