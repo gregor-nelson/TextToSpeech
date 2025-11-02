@@ -1,0 +1,31 @@
+[Unit]
+Description=TTS Web Server (Subdirectory)
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=tts-server
+Group=tts-server
+WorkingDirectory=/opt/tts-server
+Environment=PATH=/opt/tts-server/venv/bin
+ExecStart=/opt/tts-server/venv/bin/python /opt/tts-server/tts_server.py --host 127.0.0.1 --port 9001
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=tts-server
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/tts-server /var/log/tts-server /tmp
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+
+[Install]
+WantedBy=multi-user.target
