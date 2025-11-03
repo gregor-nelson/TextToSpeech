@@ -11,24 +11,39 @@
 }
 
 :root {
-    /* Color Palette - Directly from reference files */
-    --gray-900: #2c2c2c;
-    --gray-800: #3a3a3a;
-    --gray-700: #4a4a4a;
-    --gray-600: #5a5a5a;
-    --gray-500: #6a6a6a;
-    --gray-400: #8a8a8a;
-    --gray-300: #a0a0a0;
-    --gray-200: #c4c4c4;
-    --gray-100: #e5e5e5;
-    --gray-50: #f4f4f4;
-    --white: #fdfdfd;
-    
-    /* TTS-specific accent colors */
+    /* Light Mode Color Palette - Stored for light theme */
+    --light-gray-900: #2c2c2c;
+    --light-gray-800: #3a3a3a;
+    --light-gray-700: #4a4a4a;
+    --light-gray-600: #5a5a5a;
+    --light-gray-500: #6a6a6a;
+    --light-gray-400: #8a8a8a;
+    --light-gray-300: #a0a0a0;
+    --light-gray-200: #c4c4c4;
+    --light-gray-100: #e5e5e5;
+    --light-gray-50: #f4f4f4;
+    --light-white: #fdfdfd;
+
+    /* Dark Mode Color Palette (Default) - Inverted from light theme */
+    --gray-900: #e3e3e3;
+    --gray-800: #d3d3d3;
+    --gray-700: #b5b5b5;
+    --gray-600: #a5a5a5;
+    --gray-500: #959595;
+    --gray-400: #757575;
+    --gray-300: #5f5f5f;
+    --gray-200: #3b3b3b;
+    --gray-100: #2a2a2a;
+    --gray-50: #1f1f1f;
+    --white: #1a1a1a;
+
+    /* TTS-specific accent colors - Slightly adjusted for dark mode */
     --accent-blue: #3b82f6;
-    --accent-blue-hover: #2563eb;
+    --accent-blue-hover: #60a5fa;
     --accent-green: #10b981;
+    --accent-green-dark: #059669;
     --accent-orange: #f59e0b;
+    --accent-orange-dark: #d97706;
     --accent-red: #ef4444;
     
     /* Typography - Same as reference */
@@ -43,9 +58,63 @@
     --space-xl: 2rem;
     --space-2xl: 3rem;
     
+    /* Shadow System - Dark mode */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6);
+
     /* Transitions - Same as reference */
     --transition: all 0.2s ease;
     --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Light Mode Override */
+body.light-mode {
+    --gray-900: var(--light-gray-900);
+    --gray-800: var(--light-gray-800);
+    --gray-700: var(--light-gray-700);
+    --gray-600: var(--light-gray-600);
+    --gray-500: var(--light-gray-500);
+    --gray-400: var(--light-gray-400);
+    --gray-300: var(--light-gray-300);
+    --gray-200: var(--light-gray-200);
+    --gray-100: var(--light-gray-100);
+    --gray-50: var(--light-gray-50);
+    --white: var(--light-white);
+
+    /* Accent colors - Revert to original for light mode */
+    --accent-blue-hover: #2563eb;
+
+    /* Shadow System - Light mode */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.12);
+    --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+/* Prevent transitions on page load */
+body.no-transition,
+body.no-transition * {
+    transition: none !important;
+}
+
+/* Smooth transitions for theme changes */
+body,
+.tts-app,
+.tts-header,
+.tts-status-bar,
+.text-input,
+.control-select-minimal,
+.desktop-dropdown-button,
+.desktop-modal .modal-content,
+.settings-button,
+.play-button-primary,
+.notification,
+.status-right kbd {
+    transition: background-color 0.3s ease,
+                color 0.3s ease,
+                border-color 0.3s ease;
 }
 
 /* Body - Recycled from reference with TTS adjustments */
@@ -149,6 +218,7 @@ p {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    gap: var(--space-sm);
 }
 
 /* Minimal Control Styling */
@@ -211,7 +281,8 @@ p {
 }
 
 /* Settings Button */
-.settings-button {
+.settings-button,
+.theme-toggle-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -226,16 +297,19 @@ p {
     font-size: 20px;
 }
 
-.settings-button:hover {
+.settings-button:hover,
+.theme-toggle-button:hover {
     background: var(--gray-100);
     color: var(--gray-700);
 }
 
-.settings-button:active {
+.settings-button:active,
+.theme-toggle-button:active {
     background: var(--gray-200);
 }
 
-.settings-button:focus {
+.settings-button:focus,
+.theme-toggle-button:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
 }
@@ -623,15 +697,15 @@ p {
 
 /* Progress States for Different Playback Modes */
 .progress-bar.playing {
-    background: linear-gradient(90deg, 
-        var(--accent-green) 0%, 
-        #059669 100%);
+    background: linear-gradient(90deg,
+        var(--accent-green) 0%,
+        var(--accent-green-dark) 100%);
 }
 
 .progress-bar.paused {
-    background: linear-gradient(90deg, 
-        var(--accent-orange) 0%, 
-        #d97706 100%);
+    background: linear-gradient(90deg,
+        var(--accent-orange) 0%,
+        var(--accent-orange-dark) 100%);
 }
 
 .progress-bar.loading {
@@ -875,7 +949,7 @@ p {
 
 /* Status Bar Loading State - Subtle enhancement with no layout changes */
 .tts-status-bar.loading {
-    background: linear-gradient(135deg, var(--gray-50) 0%, #f8fafc 100%);
+    background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
     border-top: 1px solid rgba(59, 130, 246, 0.2);
     transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     box-shadow: inset 0 1px 0 rgba(59, 130, 246, 0.1);
@@ -928,7 +1002,7 @@ p {
     width: 20px;
     height: 20px;
     border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top: 2px solid var(--white);
+    border-top: 2px solid #ffffff;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }

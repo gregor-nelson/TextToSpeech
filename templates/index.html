@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TTS Server - Professional Text to Speech</title>
+
+    <!-- FOUC Prevention: Apply theme before render -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('tts-theme') || 'dark';
+            if (savedTheme === 'light') {
+                document.documentElement.classList.add('light-mode');
+                document.body.classList.add('light-mode');
+            }
+        })();
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -90,6 +102,9 @@
                 
                 <!-- Right Zone: Settings -->
                 <div class="control-zone-right">
+                    <button id="theme-toggle-btn" class="theme-toggle-button" title="Toggle Theme">
+                        <i class="ph ph-sun"></i>
+                    </button>
                     <button id="ccBtn" class="settings-button" title="Closed Captions">
                         <i class="ph ph-closed-captioning"></i>
                     </button>
@@ -164,8 +179,18 @@
         </div>
     </div>
 
+    <script src="/tts{{ url_for('static', filename='js/theme.js') }}"></script>
     <script src="/tts{{ url_for('static', filename='js/app.js') }}"></script>
     <script src="/tts{{ url_for('static', filename='js/mobile.js') }}"></script>
     <script src="/tts{{ url_for('static', filename='js/desktop.js') }}"></script>
+
+    <!-- Initialize ThemeManager -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.themeManager) {
+                window.themeManager.init();
+            }
+        });
+    </script>
 </body>
 </html>
