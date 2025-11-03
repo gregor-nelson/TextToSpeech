@@ -260,7 +260,7 @@ p {
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    transition: var(--transition);
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     font-size: 16px;
     position: relative;
 }
@@ -272,12 +272,12 @@ p {
 }
 
 .play-button-primary:active {
-    transform: translateY(0);
+    transform: scale(0.95);
 }
 
-.play-button-primary:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+.play-button-primary:focus-visible {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 2px;
 }
 
 /* Settings Button */
@@ -293,7 +293,7 @@ p {
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    transition: var(--transition);
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
     font-size: 20px;
 }
 
@@ -306,12 +306,13 @@ p {
 .settings-button:active,
 .theme-toggle-button:active {
     background: var(--gray-200);
+    transform: scale(0.95);
 }
 
-.settings-button:focus,
-.theme-toggle-button:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+.settings-button:focus-visible,
+.theme-toggle-button:focus-visible {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 2px;
 }
 
 /* Control Warning Positioning */
@@ -606,7 +607,11 @@ p {
 .text-input:focus {
     background: var(--white);
     border-color: var(--gray-400);
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.text-input:focus-visible {
+    outline: none;
 }
 
 /* Placeholder styling - Clean and subtle */
@@ -1180,24 +1185,28 @@ p {
         font-size: 0.9375rem;
         color: var(--gray-700);
         cursor: pointer;
-        transition: var(--transition);
+        transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
         min-height: 40px;
         font-family: var(--font-main);
         font-weight: 500;
         min-width: 100px;
         justify-content: space-between;
     }
-    
+
     .desktop-dropdown-button:hover {
         background: var(--gray-50);
         color: var(--gray-900);
     }
-    
-    .desktop-dropdown-button:focus {
+
+    .desktop-dropdown-button:active {
+        transform: scale(0.95);
+    }
+
+    .desktop-dropdown-button:focus-visible {
         background: var(--gray-50);
         color: var(--gray-900);
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+        outline: 2px solid var(--accent-blue);
+        outline-offset: 2px;
     }
     
     .desktop-dropdown-button .button-content {
@@ -1323,12 +1332,21 @@ p {
         border-radius: 6px;
         color: var(--gray-500);
         cursor: pointer;
-        transition: var(--transition);
+        transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
     }
-    
+
     .desktop-modal .modal-close:hover {
         background: var(--gray-100);
         color: var(--gray-800);
+    }
+
+    .desktop-modal .modal-close:active {
+        transform: scale(0.95);
+    }
+
+    .desktop-modal .modal-close:focus-visible {
+        outline: 2px solid var(--accent-blue);
+        outline-offset: 2px;
     }
     
     /* Search section - same for both modals */
@@ -1390,19 +1408,25 @@ p {
         border-radius: 6px;
         text-align: left;
         cursor: pointer;
-        transition: var(--transition);
+        transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
         margin: 2px 0;
         min-height: 44px;
         font-family: var(--font-main);
+        color: var(--gray-700);
     }
-    
+
     .desktop-modal .option-item:hover {
         background: var(--gray-100);
+        color: var(--gray-800);
     }
-    
+
+    .desktop-modal .option-item:active {
+        transform: scale(0.95);
+    }
+
     .desktop-modal .option-item.selected {
         background: var(--accent-blue);
-        color: var(--white);
+        color: #ffffff;
     }
     
     .desktop-modal .option-icon {
@@ -1413,13 +1437,22 @@ p {
         display: flex;
         align-items: center;
         justify-content: center;
+        color: var(--gray-600);
     }
-    
+
     /* Phosphor icons in speed modal */
     .desktop-speed-modal .option-icon {
         font-size: 1rem;
         color: inherit;
         opacity: 0.8;
+    }
+
+    .desktop-modal .option-item:hover .option-icon {
+        color: var(--gray-700);
+    }
+
+    .desktop-modal .option-item.selected .option-icon {
+        color: #ffffff;
     }
     
     .desktop-modal .option-details {
